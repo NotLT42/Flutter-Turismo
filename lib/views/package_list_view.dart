@@ -34,65 +34,63 @@ class _list_viewState extends State<list_view> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(200),
-          child: SafeArea(
-            child: Column(
+      appBar: AppBar(
+        title: const Text('Paquetes Turísticos'),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const SizedBox(height: 20),
-                const Text('Paquetes Turísticos', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    DropdownButton<String>(
-                      items: _sitio.keys.map((String key){
-                        return DropdownMenuItem<String>(
-                          value: key,
-                          child: Text(_sitio[key]!),
-                        );
-                      }).toList(),
-                      onChanged: (String? value){
-                        setState(() {
-                          _sitioSeleccionado = value!;
-                        });
-                      },
-                      hint:  Text(_sitioSeleccionado == '' ? 'Seleccione un sitio' : _sitio[_sitioSeleccionado]!),
-                    ),
-                    DropdownButton<String>(
-                        items: _tipo.keys.map((String key){
-                          return DropdownMenuItem<String>(
-                            value: key,
-                            child: Text(_tipo[key]!),
-                          );
-                        }).toList(),
-                        onChanged: (String? value){
-                          setState(() {
-                            _tipoSeleccionado = value!;
-                          });
-                        },
-                        hint: Text(_tipoSeleccionado == '' ? 'Seleccione un tipo' : _tipo[_tipoSeleccionado]!)
-                    ),
-
-                  ],
-                ),
-                ElevatedButton(
-                  onPressed: (){
+                DropdownButton<String>(
+                  items: _sitio.keys.map((String key){
+                    return DropdownMenuItem<String>(
+                      value: key,
+                      child: Text(_sitio[key]!),
+                    );
+                  }).toList(),
+                  onChanged: (String? value){
                     setState(() {
-                      _sitioSeleccionado = _sitioSeleccionado;
-                      _tipoSeleccionado = _tipoSeleccionado;
-
+                      _sitioSeleccionado = value!;
                     });
                   },
-                  child: const Text('Buscar'),
-                )
+                  hint:  Text(_sitioSeleccionado == '' ? 'Seleccione un sitio' : _sitio[_sitioSeleccionado]!),
+                ),
+                DropdownButton<String>(
+                    items: _tipo.keys.map((String key){
+                      return DropdownMenuItem<String>(
+                        value: key,
+                        child: Text(_tipo[key]!),
+                      );
+                    }).toList(),
+                    onChanged: (String? value){
+                      setState(() {
+                        _tipoSeleccionado = value!;
+                      });
+                    },
+                    hint: Text(_tipoSeleccionado == '' ? 'Seleccione un tipo' : _tipo[_tipoSeleccionado]!)
+                ),
               ],
             ),
-          )
-      ),
-      body: PackageList(site: _sitioSeleccionado, type: _tipoSeleccionado),
-    );
+            ElevatedButton(
+              onPressed: (){
+                setState(() {
+                  _sitioSeleccionado = _sitioSeleccionado;
+                  _tipoSeleccionado = _tipoSeleccionado;
 
+                });
+              },
+              child: const Text('Buscar'),
+            ),
+            Expanded(
+              child: PackageList(site: _sitioSeleccionado, type: _tipoSeleccionado),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
